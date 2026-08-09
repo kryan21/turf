@@ -1,0 +1,1161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>StrikersTurf — Book Your Box Cricket Ground in Lucknow</title>
+<meta name="description" content="Book premium box cricket grounds at StrikersTurf, Khurram Nagar, Lucknow. Floodlights, washrooms, changing rooms & instant confirmation.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=JetBrains+Mono:wght@400;500;700&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --pitch:#0a120d;
+    --pitch-2:#0f1a13;
+    --pitch-3:#132419;
+    --turf:#39a34b;
+    --turf-light:#6fd487;
+    --floodlight:#ffc857;
+    --chalk:#f4f7f2;
+    --sage:#93a89b;
+    --line: rgba(244,247,242,0.09);
+    --danger:#ff6b4a;
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  html{scroll-behavior:smooth;}
+  body{
+    background:var(--pitch);
+    color:var(--chalk);
+    font-family:'Manrope', sans-serif;
+    overflow-x:hidden;
+    -webkit-font-smoothing:antialiased;
+    -webkit-tap-highlight-color:transparent;
+  }
+  a, button{ touch-action:manipulation; }
+  ::selection{ background:var(--turf); color:var(--pitch); }
+  a{ color:inherit; text-decoration:none; }
+  img,video{ max-width:100%; display:block; }
+  .wrap{ max-width:1180px; margin:0 auto; padding:0 24px; }
+  .eyebrow{
+    font-family:'JetBrains Mono', monospace;
+    font-size:12px;
+    letter-spacing:0.22em;
+    text-transform:uppercase;
+    color:var(--turf-light);
+    display:inline-flex;
+    align-items:center;
+    gap:10px;
+  }
+  .eyebrow::before{
+    content:"";
+    width:18px; height:2px;
+    background:var(--turf-light);
+    display:inline-block;
+  }
+  h1,h2,h3{
+    font-family:'Anton', sans-serif;
+    font-weight:400;
+    text-transform:uppercase;
+    letter-spacing:0.01em;
+    line-height:0.98;
+  }
+  .btn{
+    font-family:'JetBrains Mono', monospace;
+    font-size:13px;
+    letter-spacing:0.08em;
+    text-transform:uppercase;
+    font-weight:700;
+    padding:16px 28px;
+    border-radius:2px;
+    display:inline-flex;
+    align-items:center;
+    gap:10px;
+    cursor:pointer;
+    border:1px solid transparent;
+    transition:transform .25s ease, box-shadow .25s ease, background .25s ease;
+    white-space:nowrap;
+  }
+  .btn-primary{
+    background:var(--turf);
+    color:#06110a;
+    box-shadow:0 0 0 0 rgba(57,163,75,0.5);
+  }
+  .btn-primary:hover{ transform:translateY(-2px); box-shadow:0 10px 30px -8px rgba(57,163,75,0.65); }
+  .btn-ghost{
+    background:transparent;
+    border-color:var(--line);
+    color:var(--chalk);
+  }
+  .btn-ghost:hover{ border-color:var(--turf-light); color:var(--turf-light); transform:translateY(-2px); }
+  .btn-floodlight{
+    background:var(--floodlight);
+    color:#241a02;
+  }
+  .btn-floodlight:hover{ transform:translateY(-2px); box-shadow:0 10px 30px -8px rgba(255,200,87,0.55); }
+
+  /* ---------- SPLASH SCREEN ---------- */
+  html.locked, html.locked body{ overflow:hidden; height:100%; }
+  .splash{
+    position:fixed; inset:0; z-index:1000;
+    background:
+      radial-gradient(60% 55% at 50% 40%, rgba(57,163,75,0.16), transparent 65%),
+      var(--pitch);
+    display:flex; align-items:center; justify-content:center;
+    transition:opacity .65s ease, visibility .65s ease;
+  }
+  .splash::before{
+    content:"";
+    position:absolute; inset:0;
+    background-image:repeating-linear-gradient(90deg, transparent, transparent 118px, rgba(244,247,242,0.035) 119px, transparent 120px);
+    pointer-events:none;
+  }
+  .splash.hide{ opacity:0; visibility:hidden; pointer-events:none; }
+  .splash-scene{ position:relative; width:100%; height:100%; overflow:hidden; }
+
+  .batsman{
+    position:absolute; left:41%; bottom:14%;
+    width:min(30vw, 220px);
+    transform:translateX(-50%);
+    filter:drop-shadow(0 12px 30px rgba(0,0,0,0.5));
+  }
+  .batsman svg{ overflow:visible; }
+  .bat-group{
+    transform-origin:108px 86px;
+    animation:bat-swing 2.1s cubic-bezier(.45,0,.15,1) 1 both;
+  }
+  @keyframes bat-swing{
+    0%   { transform:rotate(-34deg); }
+    48%  { transform:rotate(-38deg); }
+    60%  { transform:rotate(26deg); }
+    70%  { transform:rotate(46deg); }
+    100% { transform:rotate(16deg); }
+  }
+  .swoosh{
+    opacity:0;
+    stroke-dasharray:140;
+    stroke-dashoffset:140;
+    animation:swoosh-trail 2.1s cubic-bezier(.45,0,.15,1) 1 both;
+  }
+  @keyframes swoosh-trail{
+    0%, 46%   { opacity:0; stroke-dashoffset:140; }
+    54%       { opacity:.85; stroke-dashoffset:60; }
+    68%       { opacity:.5; stroke-dashoffset:0; }
+    80%, 100% { opacity:0; stroke-dashoffset:0; }
+  }
+
+  .ball{
+    position:absolute; top:50%; left:50%;
+    width:16px; height:16px; border-radius:50%;
+    background:radial-gradient(circle at 32% 28%, #ff9169, var(--danger) 55%, #8f2e17 100%);
+    box-shadow:0 0 14px 2px rgba(255,107,74,0.55);
+    animation:ball-fly 2.1s cubic-bezier(.55,0,.35,1) 1 both;
+  }
+  .ball::after{
+    content:"";
+    position:absolute; inset:2px;
+    border-radius:50%;
+    border:1px dashed rgba(244,247,242,0.6);
+  }
+  @keyframes ball-fly{
+    0%    { transform:translate(-32vw, -28vh) rotate(0deg) scale(1); opacity:1; }
+    52%   { transform:translate(-4vw, 3vh) rotate(600deg) scale(1); opacity:1; }
+    58%   { transform:translate(1vw, -1vh) rotate(630deg) scale(1.5, 0.6) rotate(-40deg); opacity:1; }
+    62%   { transform:translate(3vw, -3vh) rotate(660deg) scale(1.1); opacity:1; }
+    68%   { transform:translate(9vw, -9vh) rotate(760deg) scale(1); opacity:1; }
+    100%  { transform:translate(80vw, -30vh) rotate(1200deg) scale(1); opacity:0; }
+  }
+
+  .impact{
+    position:absolute; top:50%; left:50%; margin-left:1vw; margin-top:-1vh;
+    width:10px; height:10px; border-radius:50%;
+    transform:translate(-50%,-50%);
+    box-shadow:0 0 0 0 rgba(255,200,87,0.7);
+    animation:impact-burst 2.1s ease 1 both;
+    pointer-events:none;
+  }
+  @keyframes impact-burst{
+    0%, 55% { opacity:0; box-shadow:0 0 0 0 rgba(255,200,87,0); }
+    59%     { opacity:1; box-shadow:0 0 0 30px rgba(255,200,87,0.3), 0 0 46px 12px rgba(255,200,87,0.55); }
+    70%     { opacity:0; box-shadow:0 0 0 66px rgba(255,200,87,0); }
+    100%    { opacity:0; }
+  }
+  .sparks{
+    position:absolute; top:50%; left:50%; margin-left:1vw; margin-top:-1vh;
+    width:64px; height:64px; transform:translate(-50%,-50%);
+    opacity:0; pointer-events:none;
+    animation:spark-pop 2.1s ease 1 both;
+  }
+  .sparks span{
+    position:absolute; top:50%; left:50%; width:22px; height:2.5px;
+    background:linear-gradient(90deg, var(--floodlight), transparent);
+    border-radius:2px; transform-origin:0 50%;
+  }
+  .sparks span:nth-child(1){ transform:rotate(-70deg); }
+  .sparks span:nth-child(2){ transform:rotate(-25deg); }
+  .sparks span:nth-child(3){ transform:rotate(15deg); }
+  .sparks span:nth-child(4){ transform:rotate(55deg); }
+  .sparks span:nth-child(5){ transform:rotate(-110deg); }
+  .sparks span:nth-child(6){ transform:rotate(100deg); }
+  @keyframes spark-pop{
+    0%, 55% { opacity:0; }
+    59%     { opacity:1; }
+    72%     { opacity:0; }
+    100%    { opacity:0; }
+  }
+
+  .splash-word{
+    position:relative; z-index:2; text-align:center;
+    opacity:0;
+    animation:word-in .6s cubic-bezier(.2,.8,.2,1.3) 1.62s 1 both;
+  }
+  .splash-word .eyebrow{ justify-content:center; opacity:0; animation:fade-up .5s ease 2.0s 1 both; }
+  .splash-word h1{
+    font-size:clamp(38px, 8vw, 70px);
+    color:var(--chalk);
+    margin-top:14px;
+    letter-spacing:0.01em;
+  }
+  .splash-word h1 span{ color:var(--turf-light); }
+  .splash-word .tag{
+    font-family:'JetBrains Mono', monospace; font-size:12.5px; letter-spacing:0.16em;
+    text-transform:uppercase; color:var(--sage); margin-top:14px;
+    opacity:0; animation:fade-up .5s ease 2.15s 1 both;
+  }
+  @keyframes word-in{
+    0%{ opacity:0; transform:scale(0.82); }
+    70%{ opacity:1; transform:scale(1.04); }
+    100%{ opacity:1; transform:scale(1); }
+  }
+  @keyframes fade-up{
+    0%{ opacity:0; transform:translateY(10px); }
+    100%{ opacity:1; transform:translateY(0); }
+  }
+
+  .splash-skip{
+    position:absolute; bottom:26px; right:26px; z-index:3;
+    font-family:'JetBrains Mono', monospace; font-size:11.5px; letter-spacing:0.1em; text-transform:uppercase;
+    color:var(--sage); background:transparent; border:1px solid var(--line); border-radius:20px;
+    padding:9px 16px; cursor:pointer; opacity:0;
+    animation:fade-up .5s ease 1s 1 both;
+  }
+  .splash-skip:hover{ color:var(--chalk); border-color:var(--turf-light); }
+
+  @media (prefers-reduced-motion: reduce){
+    .bat-group, .ball, .impact, .sparks, .swoosh{ animation:none !important; }
+    .ball, .impact, .sparks, .swoosh{ opacity:0 !important; }
+    .splash-word, .splash-word .eyebrow, .splash-word .tag, .splash-skip{
+      animation-duration:.4s !important; animation-delay:.1s !important;
+    }
+  }
+
+  /* ---------- NAV ---------- */
+  header{
+    position:fixed; top:0; left:0; right:0; z-index:100;
+    background:rgba(10,18,13,0.72);
+    backdrop-filter:blur(14px);
+    border-bottom:1px solid var(--line);
+  }
+  nav{
+    display:flex; align-items:center; justify-content:space-between;
+    padding:16px 24px; max-width:1180px; margin:0 auto;
+  }
+  .brand{
+    display:flex; align-items:center; gap:10px;
+    font-family:'Anton', sans-serif; font-size:20px; letter-spacing:0.03em;
+    text-transform:uppercase;
+  }
+  .brand .dot{
+    width:10px; height:10px; background:var(--turf); border-radius:50%;
+    box-shadow:0 0 12px 2px rgba(57,163,75,0.8);
+  }
+  .brand span.sub{ color:var(--turf-light); }
+  .nav-links{ display:flex; align-items:center; gap:34px; }
+  .nav-links a{
+    font-family:'JetBrains Mono', monospace;
+    font-size:12px; letter-spacing:0.1em; text-transform:uppercase;
+    color:var(--sage);
+    transition:color .2s;
+  }
+  .nav-links a:hover{ color:var(--chalk); }
+  .nav-cta{ display:flex; align-items:center; gap:18px; }
+  .burger{ display:none; background:none; border:none; color:var(--chalk); font-size:24px; cursor:pointer; padding:8px; line-height:1; }
+
+  @media (max-width:900px){
+    .nav-links{
+      position:fixed; top:60px; left:0; right:0; bottom:0;
+      background:var(--pitch-2);
+      flex-direction:column; justify-content:flex-start; align-items:flex-start;
+      padding:40px 28px; gap:26px;
+      transform:translateX(100%);
+      transition:transform .35s ease;
+    }
+    .nav-links.open{ transform:translateX(0); }
+    .nav-links a{ font-size:16px; }
+    .burger{ display:block; }
+    .nav-cta .btn-ghost{ display:none; }
+  }
+
+  /* ---------- HERO ---------- */
+  .hero{
+    position:relative;
+    padding:170px 0 90px;
+    overflow:hidden;
+    background:
+      radial-gradient(60% 55% at 18% 0%, rgba(57,163,75,0.20), transparent 60%),
+      radial-gradient(50% 45% at 88% 8%, rgba(255,200,87,0.10), transparent 60%),
+      var(--pitch);
+  }
+  .beam{
+    position:absolute; top:-20%; width:340px; height:900px;
+    background:linear-gradient(180deg, rgba(255,200,87,0.14), transparent 70%);
+    clip-path:polygon(46% 0, 54% 0, 100% 100%, 0% 100%);
+    filter:blur(2px);
+    pointer-events:none;
+  }
+  .beam.b1{ left:2%; transform:rotate(8deg); }
+  .beam.b2{ right:4%; transform:rotate(-10deg); }
+  .pitch-lines{
+    position:absolute; inset:0;
+    background-image:
+      repeating-linear-gradient(90deg, transparent, transparent 118px, rgba(244,247,242,0.035) 119px, transparent 120px);
+    pointer-events:none;
+  }
+  .hero-inner{ position:relative; z-index:2; display:grid; grid-template-columns:1.15fr 0.85fr; gap:60px; align-items:center; }
+  .hero-copy h1{
+    font-size:clamp(46px, 6.4vw, 84px);
+    margin:18px 0 22px;
+    color:var(--chalk);
+  }
+  .hero-copy h1 em{
+    font-style:normal;
+    color:var(--turf-light);
+    -webkit-text-stroke:1px rgba(111,212,135,0.5);
+  }
+  .hero-copy p{
+    font-size:17px; color:var(--sage); max-width:480px; margin-bottom:34px; line-height:1.65;
+  }
+  .hero-actions{ display:flex; gap:16px; flex-wrap:wrap; }
+
+  .scoreboard{
+    background:var(--pitch-2);
+    border:1px solid var(--line);
+    border-radius:6px;
+    padding:26px;
+    position:relative;
+  }
+  .scoreboard::before{
+    content:"LIVE";
+    position:absolute; top:-11px; left:22px;
+    background:var(--danger); color:#160500;
+    font-family:'JetBrains Mono', monospace;
+    font-size:10px; font-weight:700; letter-spacing:0.14em;
+    padding:4px 10px; border-radius:2px;
+  }
+  .scoreboard-title{
+    font-family:'JetBrains Mono', monospace; font-size:11px; letter-spacing:0.16em;
+    color:var(--sage); text-transform:uppercase; margin-bottom:18px; padding-top:6px;
+  }
+  .score-grid{ display:grid; grid-template-columns:1fr 1fr; gap:18px; }
+  .score-cell{
+    border:1px solid var(--line); border-radius:4px; padding:16px 14px;
+    background:linear-gradient(180deg, rgba(255,255,255,0.02), transparent);
+  }
+  .score-cell .num{
+    font-family:'JetBrains Mono', monospace; font-weight:700;
+    font-size:30px; color:var(--floodlight);
+    text-shadow:0 0 18px rgba(255,200,87,0.35);
+  }
+  .score-cell .lbl{ font-size:11px; color:var(--sage); text-transform:uppercase; letter-spacing:0.08em; margin-top:6px; }
+  .score-cell.full{ grid-column:1/-1; display:flex; align-items:center; justify-content:space-between; }
+  .avatars{ display:flex; }
+  .avatars .av{
+    width:30px; height:30px; border-radius:50%;
+    background:linear-gradient(135deg, var(--turf), #1f5e2c);
+    border:2px solid var(--pitch-2);
+    margin-left:-8px;
+    display:flex; align-items:center; justify-content:center;
+    font-size:12px;
+  }
+  .avatars .av:first-child{ margin-left:0; }
+
+  @media (max-width:900px){
+    .hero-inner{ grid-template-columns:1fr; }
+    .hero{ padding-top:130px; }
+  }
+
+  /* ---------- TICKER ---------- */
+  .ticker-wrap{
+    background:var(--floodlight);
+    color:#241a02;
+    overflow:hidden;
+    white-space:nowrap;
+    border-top:1px solid rgba(0,0,0,0.1);
+    border-bottom:1px solid rgba(0,0,0,0.1);
+  }
+  .ticker{
+    display:inline-flex;
+    animation:scroll-left 22s linear infinite;
+    padding:12px 0;
+  }
+  .ticker span{
+    font-family:'JetBrains Mono', monospace;
+    font-weight:700; font-size:13px; letter-spacing:0.06em;
+    text-transform:uppercase;
+    padding:0 28px;
+    display:inline-flex; align-items:center; gap:10px;
+  }
+  @keyframes scroll-left{
+    0%{ transform:translateX(0); }
+    100%{ transform:translateX(-50%); }
+  }
+
+  /* ---------- SECTION SHELL ---------- */
+  section{ padding:110px 0; position:relative; }
+  .section-head{ max-width:640px; margin-bottom:56px; }
+  .section-head h2{ font-size:clamp(32px,4vw,50px); margin-top:16px; color:var(--chalk); }
+  .section-head p{ color:var(--sage); margin-top:16px; font-size:16px; line-height:1.7; }
+  .reveal{ opacity:0; transform:translateY(28px); transition:opacity .7s ease, transform .7s ease; }
+  .reveal.in{ opacity:1; transform:translateY(0); }
+
+  /* ---------- GROUND / PRICING ---------- */
+  .ground-card{
+    display:grid; grid-template-columns:1fr 1fr;
+    background:var(--pitch-2);
+    border:1px solid var(--line);
+    border-radius:8px;
+    overflow:hidden;
+  }
+  .ground-visual{
+    position:relative;
+    min-height:340px;
+    background:
+      radial-gradient(circle at 30% 20%, rgba(255,200,87,0.18), transparent 55%),
+      repeating-linear-gradient(0deg, #12321d 0 42px, #143a20 42px 84px);
+  }
+  .ground-visual .crease{
+    position:absolute; left:50%; top:50%; width:150px; height:150px;
+    border:2px solid rgba(244,247,242,0.35);
+    border-radius:50%;
+    transform:translate(-50%,-50%);
+  }
+  .ground-visual .stump-row{
+    position:absolute; bottom:36px; left:50%; transform:translateX(-50%);
+    display:flex; gap:6px;
+  }
+  .ground-visual .stump{ width:5px; height:44px; background:var(--chalk); border-radius:2px; opacity:0.85; }
+  .badge-new{
+    position:absolute; top:20px; left:20px;
+    background:var(--turf); color:#06150a;
+    font-family:'JetBrains Mono', monospace; font-weight:700; font-size:11px;
+    letter-spacing:0.12em; padding:6px 12px; border-radius:2px;
+  }
+  .ground-info{ padding:44px; display:flex; flex-direction:column; justify-content:center; }
+  .ground-info .tag{ font-family:'JetBrains Mono', monospace; font-size:12px; color:var(--turf-light); letter-spacing:0.14em; text-transform:uppercase; }
+  .ground-info h3{ font-size:34px; margin:12px 0 6px; color:var(--chalk); }
+  .price{ font-family:'JetBrains Mono', monospace; font-size:26px; color:var(--floodlight); font-weight:700; margin-bottom:14px; }
+  .price span{ font-size:13px; color:var(--sage); font-weight:500; }
+  .ground-info > p{ color:var(--sage); line-height:1.7; margin-bottom:22px; }
+  .amenity-pills{ display:flex; flex-wrap:wrap; gap:10px; margin-bottom:30px; }
+  .pill{
+    font-family:'JetBrains Mono', monospace; font-size:11.5px; letter-spacing:0.05em;
+    border:1px solid var(--line); border-radius:20px; padding:8px 14px;
+    color:var(--sage); text-transform:uppercase;
+    display:inline-flex; align-items:center; gap:7px;
+  }
+  .pill svg{ width:13px; height:13px; stroke:var(--turf-light); }
+
+  @media (max-width:800px){ .ground-card{ grid-template-columns:1fr; } .ground-info{ padding:32px 26px; } }
+
+  /* ---------- AMENITIES GRID ---------- */
+  .amenity-grid{ display:grid; grid-template-columns:repeat(4, 1fr); gap:1px; background:var(--line); border:1px solid var(--line); border-radius:8px; overflow:hidden; }
+  .amenity-cell{
+    background:var(--pitch-2); padding:34px 26px; transition:background .25s ease;
+  }
+  .amenity-cell:hover{ background:var(--pitch-3); }
+  .amenity-cell svg{ width:26px; height:26px; stroke:var(--turf-light); margin-bottom:18px; }
+  .amenity-cell h4{ font-family:'Manrope', sans-serif; font-weight:700; font-size:15px; text-transform:uppercase; letter-spacing:0.03em; margin-bottom:8px; }
+  .amenity-cell p{ font-size:13.5px; color:var(--sage); line-height:1.55; }
+  @media (max-width:900px){ .amenity-grid{ grid-template-columns:repeat(2,1fr); } }
+  @media (max-width:520px){ .amenity-grid{ grid-template-columns:1fr; } }
+
+  /* ---------- EVENTS ---------- */
+  .events{
+    background:var(--pitch-3);
+    border-radius:10px;
+    padding:64px;
+    display:flex; align-items:center; justify-content:space-between; gap:40px; flex-wrap:wrap;
+    position:relative; overflow:hidden;
+  }
+  .events::after{
+    content:"";
+    position:absolute; right:-60px; top:-60px; width:260px; height:260px;
+    background:radial-gradient(circle, rgba(255,200,87,0.16), transparent 70%);
+  }
+  .events-copy{ max-width:560px; position:relative; z-index:1; }
+  .events-copy .eyebrow{ margin-bottom:14px; }
+  .events-copy h2{ font-size:clamp(28px,3.4vw,42px); color:var(--chalk); margin-bottom:16px; }
+  .events-copy p{ color:var(--sage); line-height:1.7; }
+  .events-tags{ display:flex; gap:10px; flex-wrap:wrap; margin-top:20px; }
+
+  /* ---------- HIGHLIGHTS ---------- */
+  .clip-grid{ display:grid; grid-template-columns:repeat(3, 1fr); gap:24px; }
+  .clip{
+    position:relative; border-radius:8px; overflow:hidden; aspect-ratio:4/5;
+    background:linear-gradient(160deg, #123a1e, #0a1610);
+    border:1px solid var(--line);
+    display:flex; flex-direction:column; justify-content:flex-end; padding:22px;
+    cursor:pointer;
+  }
+  .clip-preview{
+    position:absolute; inset:0; width:100%; height:100%;
+    object-fit:cover; object-position:center;
+    z-index:0;
+  }
+  .clip::before{
+    content:"";
+    position:absolute; inset:0; z-index:1;
+    background:linear-gradient(180deg, rgba(10,18,13,0.15) 0%, rgba(10,18,13,0.35) 45%, rgba(10,18,13,0.92) 100%);
+  }
+  .clip .play, .clip .tag2, .clip h4, .clip .views{ position:relative; z-index:2; }
+  .clip:hover .clip-preview{ transform:scale(1.04); }
+  .clip-preview{ transition:transform .5s ease; }
+  .clip .play{
+    position:absolute; top:22px; right:22px;
+    width:42px; height:42px; border-radius:50%;
+    background:rgba(244,247,242,0.1); border:1px solid var(--line);
+    display:flex; align-items:center; justify-content:center;
+    backdrop-filter:blur(6px);
+  }
+  .clip .play svg{ width:14px; height:14px; fill:var(--chalk); }
+  .clip .tag2{ font-family:'JetBrains Mono', monospace; font-size:11px; color:var(--floodlight); letter-spacing:0.1em; text-transform:uppercase; margin-bottom:8px; position:relative; z-index:1; }
+  .clip h4{ font-family:'Anton', sans-serif; font-size:22px; text-transform:uppercase; color:var(--chalk); position:relative; z-index:1; line-height:1.05; }
+  .clip .views{ font-family:'JetBrains Mono', monospace; font-size:12px; color:var(--sage); margin-top:10px; position:relative; z-index:1; }
+  @media (max-width:800px){ .clip-grid{ grid-template-columns:1fr; } }
+
+  /* ---------- CTA BAND ---------- */
+  .cta-band{
+    background:linear-gradient(120deg, #0d2416, #0a120d 60%);
+    border-top:1px solid var(--line);
+    border-bottom:1px solid var(--line);
+    padding:90px 0;
+    text-align:center;
+  }
+  .cta-band .eyebrow{ justify-content:center; }
+  .cta-band h2{ font-size:clamp(34px,5vw,60px); margin:16px 0 20px; color:var(--chalk); }
+  .cta-band p{ color:var(--sage); max-width:520px; margin:0 auto 30px; line-height:1.7; }
+  .cta-badges{ display:flex; justify-content:center; gap:26px; margin-bottom:36px; flex-wrap:wrap; }
+  .cta-badges .b{ font-family:'JetBrains Mono', monospace; font-size:12px; letter-spacing:0.1em; color:var(--turf-light); display:flex; align-items:center; gap:8px; }
+  .cta-badges svg{ width:15px; height:15px; stroke:var(--turf-light); }
+
+  /* ---------- CONTACT ---------- */
+  .contact-grid{ display:grid; grid-template-columns:1fr 1fr; gap:60px; align-items:start; }
+  .contact-list{ display:flex; flex-direction:column; gap:26px; margin-top:28px; }
+  .contact-item{ display:flex; gap:16px; align-items:flex-start; }
+  .contact-item .ico{
+    width:42px; height:42px; border-radius:50%; border:1px solid var(--line);
+    display:flex; align-items:center; justify-content:center; flex-shrink:0;
+  }
+  .contact-item .ico svg{ width:18px; height:18px; stroke:var(--turf-light); }
+  .contact-item h4{ font-size:13px; text-transform:uppercase; letter-spacing:0.08em; color:var(--sage); margin-bottom:6px; font-family:'JetBrains Mono', monospace; }
+  .contact-item p, .contact-item a{ font-size:16px; line-height:1.55; }
+  .map-embed{
+    position:relative;
+    border:1px solid var(--line); border-radius:8px; overflow:hidden;
+    min-height:340px;
+    background:var(--pitch-2);
+  }
+  .map-embed iframe{
+    position:absolute; inset:0; width:100%; height:100%;
+    filter:grayscale(0.25) invert(0.92) contrast(0.9) brightness(0.95) hue-rotate(180deg);
+  }
+  .map-overlay{
+    position:absolute; left:16px; bottom:16px; right:16px;
+    max-width:280px;
+    background:rgba(10,18,13,0.88);
+    border:1px solid var(--line); border-radius:8px;
+    padding:20px;
+    backdrop-filter:blur(8px);
+  }
+  .map-overlay h4{ font-family:'Anton', sans-serif; font-size:20px; text-transform:uppercase; color:var(--chalk); }
+  .map-overlay p{ color:var(--sage); font-size:13.5px; line-height:1.5; margin:8px 0 16px; }
+  .map-overlay .btn{ padding:11px 18px; font-size:11.5px; }
+  @media (max-width:640px){
+    .map-embed{ min-height:280px; }
+    .map-overlay{ position:static; max-width:none; margin-top:14px; }
+  }
+  @media (max-width:800px){ .contact-grid{ grid-template-columns:1fr; } }
+
+  /* ---------- FOOTER ---------- */
+  footer{ border-top:1px solid var(--line); padding:64px 0 30px; }
+  .footer-top{ display:flex; justify-content:space-between; gap:40px; flex-wrap:wrap; margin-bottom:50px; }
+  .footer-brand p{ color:var(--sage); max-width:340px; margin-top:14px; line-height:1.65; font-size:14.5px; }
+  .footer-cols{ display:flex; gap:70px; flex-wrap:wrap; }
+  .footer-col h5{ font-family:'JetBrains Mono', monospace; font-size:12px; letter-spacing:0.12em; text-transform:uppercase; color:var(--sage); margin-bottom:16px; }
+  .footer-col a{ display:block; font-size:14.5px; color:var(--chalk); margin-bottom:10px; opacity:0.85; }
+  .footer-col a:hover{ color:var(--turf-light); opacity:1; }
+  .footer-bottom{
+    display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:14px;
+    border-top:1px solid var(--line); padding-top:26px;
+    font-family:'JetBrains Mono', monospace; font-size:11.5px; color:var(--sage); letter-spacing:0.03em;
+  }
+  .social-row{ display:flex; gap:12px; }
+  .social-row a{
+    width:36px; height:36px; border:1px solid var(--line); border-radius:50%;
+    display:flex; align-items:center; justify-content:center;
+  }
+  .social-row a svg{ width:15px; height:15px; stroke:var(--sage); }
+  .social-row a:hover svg{ stroke:var(--turf-light); }
+
+  /* ---------- VIDEO LIGHTBOX ---------- */
+  .clip{ cursor:pointer; }
+  .clip:hover .play{ background:var(--turf); border-color:var(--turf); }
+  .clip:hover .play svg{ fill:#06110a; }
+  .lightbox{
+    position:fixed; inset:0; z-index:200;
+    background:rgba(6,10,8,0.92);
+    backdrop-filter:blur(6px);
+    display:none;
+    align-items:center; justify-content:center;
+    padding:24px;
+  }
+  .lightbox.open{ display:flex; }
+  .lightbox-inner{
+    position:relative;
+    width:100%; max-width:460px;
+    background:#000;
+    border-radius:10px;
+    border:1px solid var(--line);
+    overflow:hidden;
+  }
+  .lightbox-inner video{ width:100%; max-height:80vh; display:block; background:#000; }
+  .lightbox-close{
+    position:absolute; top:-46px; right:0;
+    width:36px; height:36px; border-radius:50%;
+    background:rgba(244,247,242,0.1); border:1px solid var(--line);
+    display:flex; align-items:center; justify-content:center;
+    cursor:pointer; color:var(--chalk); font-size:18px;
+  }
+  .lightbox-close:hover{ background:var(--turf); color:#06110a; }
+  .lightbox-caption{
+    padding:16px 18px;
+    font-family:'JetBrains Mono', monospace; font-size:12px; color:var(--sage); letter-spacing:0.04em;
+  }
+  .lightbox-caption strong{ color:var(--chalk); display:block; font-family:'Anton', sans-serif; font-size:16px; text-transform:uppercase; margin-bottom:4px; letter-spacing:0.01em; }
+
+  /* ---------- WHATSAPP FAB ---------- */
+  .fab{
+    position:fixed; bottom:26px; right:26px; z-index:90;
+    width:56px; height:56px; border-radius:50%;
+    background:var(--turf); display:flex; align-items:center; justify-content:center;
+    box-shadow:0 10px 30px -6px rgba(57,163,75,0.6);
+  }
+  .fab svg{ width:26px; height:26px; fill:#06110a; }
+
+  @media (max-width:900px){
+    nav{ padding:14px 20px; }
+  }
+
+  @media (max-width:640px){
+    section{ padding:64px 0; }
+    .section-head{ margin-bottom:36px; }
+    .wrap{ padding:0 20px; }
+
+    .hero{ padding:118px 0 56px; }
+    .hero-copy p{ font-size:15.5px; margin-bottom:28px; }
+    .hero-actions{ flex-direction:column; align-items:stretch; }
+    .hero-actions .btn{ justify-content:center; width:100%; }
+    .scoreboard{ padding:20px; }
+    .score-cell{ padding:14px 12px; }
+    .score-cell .num{ font-size:23px; }
+
+    .ground-visual{ min-height:210px; }
+    .ground-info{ padding:28px 22px; }
+    .ground-info h3{ font-size:27px; }
+    .price{ font-size:22px; }
+
+    .amenity-cell{ padding:26px 20px; }
+
+    .events{ padding:36px 22px; flex-direction:column; align-items:flex-start; }
+    .events .btn{ width:100%; justify-content:center; }
+
+    .clip{ aspect-ratio:16/11; }
+
+    .cta-band{ padding:60px 0; }
+    .cta-badges{ gap:14px 20px; }
+    .cta-band .btn{ width:100%; justify-content:center; }
+
+    .contact-grid{ gap:38px; }
+    .map-card{ padding:26px; min-height:auto; }
+
+    .footer-top{ gap:34px; }
+    .footer-cols{ gap:36px; row-gap:30px; }
+    .footer-bottom{ flex-direction:column; align-items:flex-start; gap:16px; }
+
+    .lightbox{ padding:0; align-items:flex-end; }
+    .lightbox-inner{ max-width:100%; border-radius:16px 16px 0 0; }
+    .lightbox-close{ top:12px; right:12px; background:rgba(6,10,8,0.6); }
+
+    .splash-word h1{ font-size:clamp(32px, 11vw, 54px); }
+    .ticker span{ font-size:11.5px; padding:0 18px; }
+    .fab{ width:50px; height:50px; bottom:18px; right:18px; }
+    .fab svg{ width:22px; height:22px; }
+  }
+
+  @media (max-width:420px){
+    .brand{ font-size:16px; gap:8px; }
+    nav{ padding:12px 16px; }
+    .nav-cta{ gap:10px; }
+    .nav-cta .btn{ padding:12px 16px; font-size:11.5px; }
+    .burger{ padding:6px; line-height:1; }
+    .score-grid{ gap:10px; }
+    .score-cell.full{ flex-direction:column; align-items:flex-start; gap:12px; }
+    .amenity-pills{ gap:8px; }
+    .pill{ font-size:11px; padding:7px 12px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="splash" id="splash">
+  <div class="splash-scene">
+    <div class="batsman">
+      <svg viewBox="0 0 220 220" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <linearGradient id="kit" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0%" stop-color="#2f8144"/>
+            <stop offset="100%" stop-color="#1a4a29"/>
+          </linearGradient>
+          <linearGradient id="skin" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#f0cca4"/>
+            <stop offset="100%" stop-color="#dcb187"/>
+          </linearGradient>
+          <linearGradient id="blade" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#f5e6c8"/>
+            <stop offset="52%" stop-color="#e9d09f"/>
+            <stop offset="58%" stop-color="#8a5a30"/>
+            <stop offset="100%" stop-color="#5c3a1d"/>
+          </linearGradient>
+          <linearGradient id="pad" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#f7f8f5"/>
+            <stop offset="100%" stop-color="#d7dcd4"/>
+          </linearGradient>
+          <radialGradient id="helmet" cx="35%" cy="30%" r="75%">
+            <stop offset="0%" stop-color="#3b9a52"/>
+            <stop offset="100%" stop-color="#173a22"/>
+          </radialGradient>
+        </defs>
+
+        <ellipse cx="100" cy="207" rx="50" ry="7" fill="rgba(0,0,0,0.38)"/>
+
+        <!-- back leg + pad -->
+        <rect x="76" y="132" width="17" height="52" rx="7" fill="url(#kit)"/>
+        <rect x="70" y="172" width="27" height="26" rx="8" fill="url(#pad)"/>
+        <rect x="72" y="180" width="23" height="3" rx="1.5" fill="#39a34b"/>
+        <rect x="72" y="188" width="23" height="3" rx="1.5" fill="#39a34b"/>
+
+        <!-- front leg + pad (lunging forward) -->
+        <rect x="100" y="128" width="18" height="56" rx="7" fill="url(#kit)"/>
+        <rect x="94" y="174" width="30" height="28" rx="9" fill="url(#pad)"/>
+        <rect x="97" y="183" width="24" height="3" rx="1.5" fill="#39a34b"/>
+        <rect x="97" y="191" width="24" height="3" rx="1.5" fill="#39a34b"/>
+
+        <!-- torso -->
+        <path d="M70 84c0-11 9-20 20-20h6c11 0 20 9 20 20v46c0 8-7 14-15 14H85c-8 0-15-6-15-14V84z" fill="url(#kit)"/>
+        <path d="M78 92h32" stroke="rgba(244,247,242,0.25)" stroke-width="2" stroke-linecap="round"/>
+
+        <!-- back arm (non-batting, tucked) -->
+        <path d="M78 90c-8 4-13 12-12 22" stroke="url(#kit)" stroke-width="9" stroke-linecap="round"/>
+
+        <!-- head + helmet -->
+        <circle cx="94" cy="58" r="15" fill="url(#skin)"/>
+        <path d="M77 58a17 17 0 0 1 34-3c0 2-1 3-3 3H80c-2 0-3-1-3 0z" fill="url(#helmet)"/>
+        <rect x="79" y="56" width="30" height="4" rx="2" fill="rgba(244,247,242,0.5)"/>
+        <path d="M82 60l2 8M90 60l1 9M98 60l2 8" stroke="rgba(10,18,13,0.4)" stroke-width="1.4" stroke-linecap="round"/>
+
+        <!-- swing arc trail (behind bat, fades during the fast swing) -->
+        <path class="swoosh" d="M152 112 A72 72 0 0 0 108 28" stroke="rgba(244,247,242,0.55)" stroke-width="7" stroke-linecap="round" fill="none"/>
+
+        <!-- arm + bat, swings as one unit from the shoulder -->
+        <g class="bat-group">
+          <path d="M108 86c14 2 26 10 36 20" stroke="url(#skin)" stroke-width="10" stroke-linecap="round"/>
+          <ellipse cx="146" cy="109" rx="8.5" ry="10" fill="#f4f7f2" transform="rotate(18 146 109)"/>
+          <path d="M141 106 L141 57 C141 49 136 45 133 43 L133 -1 Q146 -11 159 -1 L159 43 C156 45 151 49 151 57 L151 106 C151 109.5 148.8 112 146 112 C143.2 112 141 109.5 141 106 Z"
+                fill="url(#blade)" stroke="rgba(10,18,13,0.35)" stroke-width="1"/>
+          <line x1="146" y1="-1" x2="146" y2="40" stroke="rgba(10,18,13,0.22)" stroke-width="1.4"/>
+          <path d="M142 62h8M142 70h8M142 78h8M142 86h8M142 94h8M142 102h8" stroke="rgba(10,18,13,0.4)" stroke-width="1.2" stroke-linecap="round"/>
+        </g>
+      </svg>
+    </div>
+    <div class="ball"></div>
+    <div class="impact"></div>
+    <div class="sparks"><span></span><span></span><span></span><span></span><span></span><span></span></div>
+    <div class="splash-word">
+      <span class="eyebrow">Lucknow's Home Ground</span>
+      <h1>STRIKERS<span>TURF</span></h1>
+      <div class="tag">Book Your Game</div>
+    </div>
+    <button class="splash-skip" id="splashSkip">Skip →</button>
+  </div>
+</div>
+
+<header>
+  <nav>
+    <a href="#home" class="brand"><span class="dot"></span>STRIKERS<span class="sub">TURF</span></a>
+    <div class="nav-links" id="navLinks">
+      <a href="#home">Home</a>
+      <a href="#ground">Ground</a>
+      <a href="#amenities">Amenities</a>
+      <a href="#events">Events</a>
+      <a href="#gallery">Gallery</a>
+      <a href="#contact">Contact</a>
+    </div>
+    <div class="nav-cta">
+      <a href="tel:918115827220" class="btn btn-ghost" style="padding:12px 18px;">Call Now</a>
+      <a href="https://strikersturf.turfbox.in/book.php?ground=CRICKETTURF" class="btn btn-primary" style="padding:12px 20px;">Book Now</a>
+      <button class="burger" id="burgerBtn" aria-label="Menu">☰</button>
+    </div>
+  </nav>
+</header>
+
+<!-- HERO -->
+<section class="hero" id="home">
+  <div class="beam b1"></div>
+  <div class="beam b2"></div>
+  <div class="pitch-lines"></div>
+  <div class="wrap hero-inner">
+    <div class="hero-copy">
+      <span class="eyebrow">Professional Turf Booking · Lucknow</span>
+      <h1>Book Your <em>Game</em>. Under The Lights.</h1>
+      <p>Professional box cricket grounds with real-time availability. Floodlit, fully equipped, and ready whenever you are — choose a slot and step onto the turf.</p>
+      <div class="hero-actions">
+        <a href="https://strikersturf.turfbox.in/book.php?ground=CRICKETTURF" class="btn btn-primary">Book Now →</a>
+        <a href="#ground" class="btn btn-ghost">View The Ground</a>
+      </div>
+    </div>
+    <div class="scoreboard reveal in">
+      <div class="scoreboard-title">Club Scoreboard</div>
+      <div class="score-grid">
+        <div class="score-cell">
+          <div class="num">2.4k+</div>
+          <div class="lbl">Players Hosted</div>
+        </div>
+        <div class="score-cell">
+          <div class="num">98%</div>
+          <div class="lbl">Happy Players</div>
+        </div>
+        <div class="score-cell full">
+          <div>
+            <div class="num" style="font-size:22px;">LIVE</div>
+            <div class="lbl">Ground Availability</div>
+          </div>
+          <div class="avatars">
+            <div class="av">🏏</div>
+            <div class="av">⚡</div>
+            <div class="av">🔥</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- OFFER TICKER -->
+<div class="ticker-wrap">
+  <div class="ticker">
+    <span>🔥 Book a 2-Hour Turf Session, Get 15 Minutes Complimentary</span>
+    <span>⚡ Instant Confirmation on Every Booking</span>
+    <span>🏏 Floodlit Box Cricket · Open Every Day</span>
+    <span>🔥 Book a 2-Hour Turf Session, Get 15 Minutes Complimentary</span>
+    <span>⚡ Instant Confirmation on Every Booking</span>
+    <span>🏏 Floodlit Box Cricket · Open Every Day</span>
+  </div>
+</div>
+
+<!-- GROUND / PRICING -->
+<section id="ground">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <span class="eyebrow">Available Ground</span>
+      <h2>One ground. Every night.</h2>
+      <p>A single, purpose-built box cricket ground — kept in match condition and lit for play well after sunset.</p>
+    </div>
+    <div class="ground-card reveal">
+      <div class="ground-visual">
+        <span class="badge-new">New</span>
+        <div class="crease"></div>
+        <div class="stump-row">
+          <div class="stump"></div><div class="stump"></div><div class="stump"></div>
+        </div>
+      </div>
+      <div class="ground-info">
+        <span class="tag">Cricket Turf</span>
+        <h3>Box Cricket Ground</h3>
+        <div class="price">₹1,000.00 <span>/ hour</span></div>
+        <p>Professional box cricket ground with LED floodlighting, built for fast-paced night matches and weekend fixtures alike.</p>
+        <div class="amenity-pills">
+          <span class="pill"><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M12 2v4M12 18v4M4.9 4.9l2.8 2.8M16.3 16.3l2.8 2.8M2 12h4M18 12h4M4.9 19.1l2.8-2.8M16.3 7.7l2.8-2.8"/></svg>Floodlights</span>
+          <span class="pill"><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M4 21V8a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v13M9 21v-6h6v6"/></svg>Washroom</span>
+          <span class="pill"><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><rect x="4" y="3" width="16" height="18" rx="2"/><path d="M9 8h6M9 13h6"/></svg>Changing Room</span>
+          <span class="pill"><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M8 2h8l-1 6h1a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2V10a2 2 0 0 1 2-2h1L8 2z"/></svg>Soft Drinks</span>
+        </div>
+        <a href="https://strikersturf.turfbox.in/book.php?ground=CRICKETTURF" class="btn btn-primary">Book This Ground →</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- AMENITIES -->
+<section id="amenities" style="padding-top:0;">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <span class="eyebrow">On-Ground Amenities</span>
+      <h2>Everything you need. Nothing you don't.</h2>
+    </div>
+    <div class="amenity-grid reveal">
+      <div class="amenity-cell">
+        <svg viewBox="0 0 24 24" fill="none" stroke-width="1.7"><path d="M12 2v4M12 18v4M4.9 4.9l2.8 2.8M16.3 16.3l2.8 2.8M2 12h4M18 12h4M4.9 19.1l2.8-2.8M16.3 7.7l2.8-2.8"/><circle cx="12" cy="12" r="4"/></svg>
+        <h4>Floodlights</h4>
+        <p>High-output LED lighting keeps the ground match-ready long after the sun goes down.</p>
+      </div>
+      <div class="amenity-cell">
+        <svg viewBox="0 0 24 24" fill="none" stroke-width="1.7"><path d="M4 21V8a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v13M9 21v-6h6v6M2 21h20"/></svg>
+        <h4>Washroom</h4>
+        <p>Clean, accessible washrooms on-site so your session never has to pause.</p>
+      </div>
+      <div class="amenity-cell">
+        <svg viewBox="0 0 24 24" fill="none" stroke-width="1.7"><rect x="4" y="3" width="16" height="18" rx="2"/><path d="M9 8h6M9 13h6M9 18h3"/></svg>
+        <h4>Changing Room</h4>
+        <p>A dedicated space to gear up before the toss and cool down after the match.</p>
+      </div>
+      <div class="amenity-cell">
+        <svg viewBox="0 0 24 24" fill="none" stroke-width="1.7"><path d="M8 2h8l-1 6h1a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2V10a2 2 0 0 1 2-2h1L8 2z"/><path d="M8 12h8"/></svg>
+        <h4>Soft Drinks</h4>
+        <p>Grab a cold drink between overs — available right at the ground.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- EVENTS -->
+<section id="events">
+  <div class="wrap">
+    <div class="events reveal">
+      <div class="events-copy">
+        <span class="eyebrow">Special Occasions</span>
+        <h2>Host your next event with us</h2>
+        <p>Planning a tournament, corporate outing, or sports day? Get in touch for custom slots, catering, and exclusive packages built around your event.</p>
+        <div class="events-tags">
+          <span class="pill">Tournaments</span>
+          <span class="pill">Corporate Events</span>
+          <span class="pill">Sports Days</span>
+        </div>
+      </div>
+      <a href="tel:918115827220" class="btn btn-floodlight">Call 8115827220 →</a>
+    </div>
+  </div>
+</section>
+
+<!-- HIGHLIGHTS -->
+<section id="gallery">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <span class="eyebrow">Arena Experience</span>
+      <h2>Match highlights from the turf</h2>
+      <p>A look at what a night on the ground actually feels like.</p>
+    </div>
+    <div class="clip-grid reveal">
+      <div class="clip" data-video="https://strikersturf.turfbox.in/videos/1.mp4" data-title="Intense Night Matches" data-meta="Night Match · 0:45 · 3.3k views">
+        <video class="clip-preview" src="https://strikersturf.turfbox.in/videos/1.mp4#t=0.5" muted loop autoplay playsinline preload="metadata"></video>
+        <span class="play"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></span>
+        <span class="tag2">Night Match · 0:45</span>
+        <h4>Intense Night Matches</h4>
+        <span class="views">3.3k views</span>
+      </div>
+      <div class="clip" data-video="https://strikersturf.turfbox.in/videos/2.mp4" data-title="Box Cricket Experience" data-meta="Cricket · 1:12 · 7.0k views">
+        <video class="clip-preview" src="https://strikersturf.turfbox.in/videos/2.mp4#t=0.5" muted loop autoplay playsinline preload="metadata"></video>
+        <span class="play"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></span>
+        <span class="tag2">Cricket · 1:12</span>
+        <h4>Box Cricket Experience</h4>
+        <span class="views">7.0k views</span>
+      </div>
+      <div class="clip" data-video="https://strikersturf.turfbox.in/videos/3.mp4" data-title="Weekend Tournament" data-meta="Tournament · 0:30 · 2.3k views">
+        <video class="clip-preview" src="https://strikersturf.turfbox.in/videos/3.mp4#t=0.5" muted loop autoplay playsinline preload="metadata"></video>
+        <span class="play"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></span>
+        <span class="tag2">Tournament · 0:30</span>
+        <h4>Weekend Tournament</h4>
+        <span class="views">2.3k views</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta-band">
+  <div class="wrap">
+    <span class="eyebrow">Join The Club</span>
+    <h2>Ready to play?<br>Your court awaits.</h2>
+    <p>Don't miss out on your favourite slots. Book now and enjoy premium turf with professional amenities.</p>
+    <div class="cta-badges">
+      <span class="b"><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg>Instant Confirmation</span>
+      <span class="b"><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><rect x="3" y="11" width="18" height="10" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>Secure Payment</span>
+    </div>
+    <a href="https://strikersturf.turfbox.in/book.php?ground=CRICKETTURF" class="btn btn-primary">Book Now →</a>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="wrap contact-grid">
+    <div class="reveal">
+      <span class="eyebrow">Get In Touch</span>
+      <h2 style="font-size:clamp(30px,3.6vw,44px); margin-top:16px;">Find us on the ground</h2>
+      <div class="contact-list">
+        <div class="contact-item">
+          <span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.68 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.91.32 1.85.55 2.81.68A2 2 0 0 1 22 16.92z"/></svg></span>
+          <div>
+            <h4>Phone</h4>
+            <a href="tel:918115827220">+91 81158 27220</a>
+          </div>
+        </div>
+        <div class="contact-item">
+          <span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg></span>
+          <div>
+            <h4>Address</h4>
+            <p>Strikers Turf, opposite Tender Care Nursing Home (near Tata Motors), Khurram Nagar, Lucknow, Uttar Pradesh — 226022</p>
+          </div>
+        </div>
+        <div class="contact-item">
+          <span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><path d="M17.5 6.5h.01"/></svg></span>
+          <div>
+            <h4>Instagram</h4>
+            <a href="https://www.instagram.com/" target="_blank" rel="noopener">@strikersturf</a>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="map-embed reveal">
+      <iframe
+        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d1821909.961696071!2d78.53164672851561!3d26.89022951552364!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3999577ff3a0a617%3A0xb2dd61da92aa6ef7!2sStriker's%20turf!5e0!3m2!1sen!2sin!4v1786295484517!5m2!1sen!2sin"
+        width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy"
+        referrerpolicy="strict-origin-when-cross-origin" title="StrikersTurf location map">
+      </iframe>
+      <div class="map-overlay">
+        <h4>Khurram Nagar, Lucknow</h4>
+        <p>Opposite Tender Care Nursing Home, near Tata Motors.</p>
+        <a href="https://share.google/gcqAGRXSy7Etm4lJH" target="_blank" rel="noopener" class="btn btn-ghost">Open In Google Maps →</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div class="footer-top">
+      <div class="footer-brand">
+        <a href="#home" class="brand"><span class="dot"></span>STRIKERS<span class="sub">TURF</span></a>
+        <p>The ultimate destination for premium box cricket in Lucknow. High-quality infrastructure, floodlit play, and seamless reservations.</p>
+      </div>
+      <div class="footer-cols">
+        <div class="footer-col">
+          <h5>Explore</h5>
+          <a href="#ground">Ground</a>
+          <a href="#amenities">Amenities</a>
+          <a href="#events">Events</a>
+          <a href="#gallery">Gallery</a>
+        </div>
+        <div class="footer-col">
+          <h5>Contact</h5>
+          <a href="tel:918115827220">+91 81158 27220</a>
+          <a href="https://share.google/gcqAGRXSy7Etm4lJH" target="_blank" rel="noopener">Get Directions</a>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2026 StrikersTurf, Lucknow. All rights reserved.</span>
+      <div class="social-row">
+        <a href="https://www.instagram.com/" target="_blank" rel="noopener" aria-label="Instagram"><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><path d="M17.5 6.5h.01"/></svg></a>
+        <a href="https://share.google/gcqAGRXSy7Etm4lJH" target="_blank" rel="noopener" aria-label="Google Maps"><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg></a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<a href="https://wa.me/918115827220" target="_blank" rel="noopener" class="fab" aria-label="WhatsApp">
+  <svg viewBox="0 0 24 24"><path d="M12.04 2c-5.52 0-10 4.48-10 10 0 1.77.46 3.44 1.26 4.89L2 22l5.24-1.37A9.94 9.94 0 0 0 12.04 22c5.52 0 10-4.48 10-10s-4.48-10-10-10zm5.85 14.14c-.25.7-1.44 1.33-1.99 1.4-.51.07-1.15.1-1.86-.12-.43-.13-.98-.31-1.68-.61-2.96-1.28-4.89-4.24-5.04-4.44-.15-.2-1.21-1.6-1.21-3.06 0-1.45.76-2.16 1.03-2.46.27-.29.6-.37.8-.37.2 0 .4 0 .57.01.18.01.43-.07.67.51.25.6.86 2.07.93 2.22.07.15.12.33.02.53-.1.2-.15.33-.3.5-.15.18-.31.4-.44.53-.15.15-.3.31-.13.6.17.3.76 1.25 1.63 2.02 1.12 1 2.06 1.31 2.36 1.46.3.15.47.13.65-.08.18-.2.76-.88.96-1.19.2-.3.4-.25.67-.15.28.1 1.75.82 2.05.97.3.15.5.22.57.35.08.13.08.72-.17 1.42z"/></svg>
+</a>
+
+<div class="lightbox" id="videoLightbox">
+  <div class="lightbox-inner">
+    <button class="lightbox-close" id="lightboxClose" aria-label="Close">✕</button>
+    <video id="lightboxVideo" controls playsinline></video>
+    <div class="lightbox-caption">
+      <strong id="lightboxTitle"></strong>
+      <span id="lightboxMeta"></span>
+    </div>
+  </div>
+</div>
+
+<script>
+  // Splash screen
+  const splash = document.getElementById('splash');
+  const splashSkip = document.getElementById('splashSkip');
+  document.documentElement.classList.add('locked');
+
+  function dismissSplash(){
+    if(splash.classList.contains('hide')) return;
+    splash.classList.add('hide');
+    document.documentElement.classList.remove('locked');
+    setTimeout(() => splash.remove(), 700);
+  }
+
+  const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  setTimeout(dismissSplash, prefersReduced ? 900 : 3600);
+  splashSkip.addEventListener('click', dismissSplash);
+  splash.addEventListener('click', (e) => { if(e.target === splash) dismissSplash(); });
+
+  const burger = document.getElementById('burgerBtn');
+  const links = document.getElementById('navLinks');
+  burger.addEventListener('click', () => links.classList.toggle('open'));
+  links.querySelectorAll('a').forEach(a => a.addEventListener('click', () => links.classList.remove('open')));
+
+  const revealEls = document.querySelectorAll('.reveal');
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); } });
+  }, { threshold: 0.15 });
+  revealEls.forEach(el => io.observe(el));
+
+  // Video lightbox
+  const lightbox = document.getElementById('videoLightbox');
+  const lbVideo = document.getElementById('lightboxVideo');
+  const lbTitle = document.getElementById('lightboxTitle');
+  const lbMeta = document.getElementById('lightboxMeta');
+  const lbClose = document.getElementById('lightboxClose');
+
+  function openLightbox(src, title, meta){
+    lbVideo.src = src;
+    lbTitle.textContent = title;
+    lbMeta.textContent = meta;
+    lightbox.classList.add('open');
+    document.body.style.overflow = 'hidden';
+    lbVideo.play().catch(() => {});
+  }
+  function closeLightbox(){
+    lightbox.classList.remove('open');
+    document.body.style.overflow = '';
+    lbVideo.pause();
+    lbVideo.removeAttribute('src');
+    lbVideo.load();
+  }
+
+  document.querySelectorAll('.clip').forEach(clip => {
+    clip.addEventListener('click', () => {
+      openLightbox(clip.dataset.video, clip.dataset.title, clip.dataset.meta);
+    });
+  });
+  lbClose.addEventListener('click', closeLightbox);
+  lightbox.addEventListener('click', (e) => { if(e.target === lightbox) closeLightbox(); });
+  document.addEventListener('keydown', (e) => { if(e.key === 'Escape') closeLightbox(); });
+</script>
+
+</body>
+</html>
